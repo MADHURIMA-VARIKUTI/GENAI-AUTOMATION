@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genai-perf-pod-v25-04
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genai-perf-pod-v25-04
+  template:
+    metadata:
+      labels:
+        app: genai-perf-pod-v25-04
+    spec:
+      containers:
+        - image: nvcr.io/nvidia/tritonserver:25.04-trtllm-python-py3
+          name: genaiperf
+          command: ["sleep"]
+          args: ["infinity"]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+          - mountPath: /workdir
+            name: my-gl4f-volume
+          resources:
+            requests:
+              memory: "32Gi"
+              cpu: "24"
+            limits:
+              memory: "32Gi"
+              cpu: "24"
+      volumes:
+      - name: my-gl4f-volume
+        persistentVolumeClaim:
+          claimName: workdir-pvc
+      imagePullSecrets:
+        - name: ngc-secret
+

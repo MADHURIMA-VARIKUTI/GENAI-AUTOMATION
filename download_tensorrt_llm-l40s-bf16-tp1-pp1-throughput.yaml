@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nim-download-profile-job-llama31-8b
+spec:
+  template:
+    metadata:
+      name: nim-llama-31-8b-dl-pod
+    spec:
+      containers:
+      - args:
+        - download-to-cache
+        - --profile
+        - a324f4ea009953c5612f0c5bb74a32caaedd4559997b95da96287ec690fec527
+        env:
+        - name: NIM_CACHE_PATH
+          value: /mnt/models
+        - name: NGC_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: NGC_API_KEY
+              name: nvidia-nim-secrets
+        image: 172.28.1.96/ezmeral-common/nvcr.io/nim/meta/llama-3.1-70b-instruct-pb24h2:1.3.1
+        name: nim-profile-single
+        volumeMounts:
+        - mountPath: /mnt/models
+          name: model-cache
+      imagePullSecrets:
+      - name: ngc-secret
+      restartPolicy: Never
+      volumes:
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: cache-pvc

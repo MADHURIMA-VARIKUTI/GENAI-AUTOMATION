@@ -1,0 +1,56 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ClusterServingRuntime
+metadata:
+  name: madhu-31-bf16-tp1-pp1-tpt
+spec:
+  annotations:
+    prometheus.kserve.io/path: /metrics
+    prometheus.kserve.io/port: '8000'
+    serving.kserve.io/enable-metric-aggregation: 'true'
+    serving.kserve.io/enable-prometheus-scraping: 'true'
+  containers:
+  - env:
+    - name: NIM_CACHE_PATH
+      value: /mnt/models
+    - name: NIM_MODEL_PROFILE
+      value: a324f4ea009953c5612f0c5bb74a32caaedd4559997b95da96287ec690fec527
+    - name: HF_TOKEN
+      valueFrom:
+        secretKeyRef:
+          key: HF_TOKEN
+          name: nvidia-nim-secrets
+    - name: NGC_API_KEY
+      valueFrom:
+        secretKeyRef:
+          key: NGC_API_KEY
+          name: nvidia-nim-secrets
+    image: 172.28.1.96/ezmeral-common/nvcr.io/nim/meta/llama-3.1-70b-instruct-pb24h2:1.3.1
+    name: kserve-container
+    ports:
+    - containerPort: 8000
+      protocol: TCP
+    resources:
+      limits:
+        cpu: '16'
+        memory: 96Gi
+      requests:
+        cpu: '16'
+        memory: 96Gi
+    volumeMounts:
+    - mountPath: /dev/shm
+      name: dshm
+  imagePullSecrets:
+  - name: ngc-secret
+  protocolVersions:
+  - v2
+  - grpc-v2
+  supportedModelFormats:
+  - autoSelect: true
+    name: nvidia-nim-llama31-70b-instruct-bf16
+    priority: 5
+    version: 1.3.1
+  volumes:
+  - emptyDir:
+      medium: Memory
+      sizeLimit: 32Gi
+    name: dshm

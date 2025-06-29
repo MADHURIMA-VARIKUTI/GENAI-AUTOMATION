@@ -1,0 +1,24 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: madhu-31-70b-bf16-tp2-pp1-tpt
+spec:
+  predictor:
+    containerConcurrency: 0
+    maxReplicas: 1
+    minReplicas: 1
+    model:
+      modelFormat:
+        name: nvidia-nim-llama31-70b-instruct-bf16
+      resources:
+        limits:
+          cpu: 16
+          memory: 96Gi
+          nvidia.com/gpu: '1'
+        requests:
+          cpu: 16
+          memory: 96Gi
+          nvidia.com/gpu: '1'
+      runtime: madhu-31-bf16-tp2-pp1-tpt
+      storageUri: pvc://cache-pvc/
+    nodeSelector: null

@@ -1,0 +1,55 @@
+[[tests]]
+id = "Test1"
+model_name = "llama3.1"
+concurrency_level = 10
+input_sequence_length = 200
+output_sequence_length = 200
+num_nodes = 4
+url = "nvidia-nim-deployment-nim-llm:8080"
+measurement_interval = 10000
+export_file_pattern = "nim-1gpu"
+
+[[tests]]
+id = "Test2"
+model_name = "llama3.1"
+concurrency_level = 40
+input_sequence_length = 200
+output_sequence_length = 200
+num_nodes = 4
+url = "nvidia-nim-deployment-nim-llm:8080"
+measurement_interval = 10000
+export_file_pattern = "nim-1gpu"
+
+[[tests]]
+id = "Test3"
+model_name = "llama3.1"
+concurrency_level = 60
+input_sequence_length = 200
+output_sequence_length = 200
+num_nodes = 4
+url = "nvidia-nim-deployment-nim-llm:8080"
+measurement_interval = 10000
+export_file_pattern = "nim-1gpu"
+
+[[tests]]
+id = "Test4"
+model_name = "llama3.1"
+concurrency_level = 80
+input_sequence_length = 200
+output_sequence_length = 200
+num_nodes = 4
+url = "nvidia-nim-deployment-nim-llm:8080"
+measurement_interval = 10000
+export_file_pattern = "nim-1gpu"
+
+[[tests]]
+id = "Test5"
+model_name = "llama3.1"
+concurrency_level = 100
+input_sequence_length = 200
+output_sequence_length = 200
+num_nodes = 4
+url = "nvidia-nim-deployment-nim-llm:8080"
+measurement_interval = 10000
+export_file_pattern = "nim-1gpu"
+
